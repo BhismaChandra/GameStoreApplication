@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Game Catalog</h1>
-    <table>
+    <table class="table table-sm">
         <thead>
             <tr>
                 <th>Title</th>
@@ -26,7 +26,7 @@
                     <form th:action="@{/edit/{id}(id=${game.id})}" method="get" style="display: inline;">
                         <button type="submit">Edit</button>
                     </form>
-                    <form th:action="@{/delete/{id}(id=${game.id})}" method="post" style="display: inline;">
+                    <form th:action="@{/delete/{id}(id=${game.id})}" method="delete" style="display: inline;">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button type="submit">Delete</button>
                     </form>
