@@ -18,7 +18,10 @@
         </div>
         <div>
             <label for="genre">Genre:</label>
-            <input type="text" th:field="*{genre}" id="genre"/>
+            <select th:field="*{genre}" id="genre">
+                <option th:each="genre : ${T(com.store.game.model.GameGenre).values()}"
+                        th:value="${genre}" th:text="${genre}"></option>
+            </select>
         </div>
         <div>
             <label for="price">Price:</label>

@@ -13,7 +13,7 @@
                 <th>Developer</th>
                 <th>Genre</th>
                 <th>Price</th>
-                <th>Action</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -23,12 +23,20 @@
                 <td th:text="${game.genre}"></td>
                 <td th:text="${game.price}"></td>
                 <td>
-                    <a th:href="@{/edit/{id}(id=${game.id})}">Edit</a>
+                    <form th:action="@{/edit/{id}(id=${game.id})}" method="get" style="display: inline;">
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form th:action="@{/delete/{id}(id=${game.id})}" method="post" style="display: inline;">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit">Delete</button>
+                    </form>
                 </td>
             </tr>
         </tbody>
     </table>
     <br/>
-    <a href="/add">Add New Game</a>
+    <form th:action="@{/add}" method="get">
+        <button type="submit">Add New Game</button>
+    </form>
 </body>
 </html>
