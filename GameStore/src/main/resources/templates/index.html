@@ -1,14 +1,34 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Game Store</title>
-  </head>
-  <body>
-	<ul>
-
-	</ul>
-  </body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Catalog</title>
+</head>
+<body>
+    <h1>Game Catalog</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Developer</th>
+                <th>Genre</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="game : ${games}">
+                <td th:text="${game.title}"></td>
+                <td th:text="${game.developer}"></td>
+                <td th:text="${game.genre}"></td>
+                <td th:text="${game.price}"></td>
+                <td>
+                    <a th:href="@{/edit/{id}(id=${game.id})}">Edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br/>
+    <a href="/add">Add New Game</a>
+</body>
 </html>
