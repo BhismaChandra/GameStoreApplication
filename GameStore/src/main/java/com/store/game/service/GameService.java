@@ -46,6 +46,6 @@ public class GameService {
 
 	public Game getGameById(String id) {
         return gameRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(String.format("Cannot Find Game by Id %s", id)));
+                .orElseThrow(() -> new RuntimeException(String.format("Cannot Find Game by ID %s", id)));
 	}
 }
