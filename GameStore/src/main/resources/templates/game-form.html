@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:if="${#strings.isEmpty(game.id)}">Add Game</title>
+    <title th:unless="${#strings.isEmpty(game.id)}">Edit Game</title>
+</head>
+<body>
+    <h1 th:if="${#strings.isEmpty(game.id)}">Add Game</h1>
+    <h1 th:unless="${#strings.isEmpty(game.id)}">Edit Game</h1>
+    <form th:action="@{${#strings.isEmpty(game.id) ? '/addGame/' + user.id : '/updateGame/' + user.id + '/' + game.id}}" method="post">
+        <input type="hidden" id="id" name="id" th:value="${game.id}">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" th:value="${game.title}" required><br><br>
+        <label for="developer">Developer:</label>
+        <input type="text" id="developer" name="developer" th:value="${game.developer}" required><br><br>
+        <label for="genre">Genre:</label>
+        <select id="genre" name="genre" required>
+            <option th:each="genre : ${T(com.store.game.model.GameGenre).values()}"
+                    th:text="${genre}" th:value="${genre}"
+                    th:selected="${genre == game.genre}"></option>
+        </select><br><br>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" th:value="${game.price}" required><br><br>
+        <input type="hidden" id="gameIndex" name="gameIndex" th:value="${gameIndex}">
+        <input type="submit" th:value="${#strings.isEmpty(game.id) ? 'Add Game' : 'Update Game'}">
+    </form>
+</body>
+</html>

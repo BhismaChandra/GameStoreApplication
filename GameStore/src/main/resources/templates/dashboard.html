@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, <span th:text="${user.username}"></span>!</h1>
+    <h3>Balance: <span th:text="${user.balances}"></span></h3>
+    <h2>Add Balance</h2>
+    <form th:action="@{/addBalance/{userId}(userId=${user.id})}" method="post">
+        <input type="hidden" name="userId" th:value="${user.id}" />
+        <label for="balance">Balance:</label>
+        <input type="number" id="balance" name="balance" />
+        <button type="submit">Add Balance</button>
+    </form>
+    <h2>Game List</h2>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Developer</th>
+            <th>Genre</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="game, gameIndex : ${user.games}">
+            <td th:text="${game.title}"></td>
+            <td th:text="${game.developer}"></td>
+            <td th:text="${game.genre}"></td>
+            <td th:text="${game.price}"></td>
+            <td>
+                <a th:href="@{/game-form/{userId}/{gameId}(userId=${user.id}, gameId=${game.id})}">Edit</a>
+                <a th:href="@{/deleteGame/{userId}/{gameId}(userId=${user.id}, gameId=${game.id})}">Delete</a>
+            </td>
+        </tr>
+    </table>
+    
+    <h2>Add Game</h2>
+    <a th:href="@{/game-form/{userId}/add(userId=${user.id})}">
+        <button>Add Game</button>
+    </a>
+</body>
+</html>

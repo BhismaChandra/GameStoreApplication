@@ -1,0 +1,29 @@
+.navbar-brand {
+	font-size: 32px;
+}
+
+.table {
+	width: 100%;
+	margin: 0 auto;
+}
+
+th.custom-col {
+	width: 20%;
+}
+
+.btn {
+    width: 100%;
+	white-space: nowrap;
+}
+  
+@media (min-width: 576px) {
+	.btn {
+		width: auto;
+	}
+}
+
+.error-message {
+	color: red;
+}
+
+  

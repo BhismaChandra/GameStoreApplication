@@ -1,5 +1,34 @@
 package com.store.game.model;
 
 public enum GameGenre {
-	ACTION, ADVENTURE, RPG, SPORTS, STRATEGY, SIMULATION
+    ACTION,
+    ADVENTURE,
+    ARCADE,
+    BATTLE_ROYALE,
+    BOARD,
+    CARD,
+    COOPERATIVE,
+    EDUCATIONAL,
+    FPS,
+    FIGHTING,
+    HORROR,
+    MMO,
+    MOBA,
+    MUSIC,
+    OPEN_WORLD,
+    PARTY,
+    PLATFORMER,
+    PUZZLE,
+    RACING,
+    RPG,
+    SANDBOX,
+    SHOOTER,
+    SIMULATION,
+    SPORTS,
+    STRATEGY,
+    SURVIVAL,
+    TACTICAL,
+    TRIVIA,
+    TURN_BASE,
+    VR
 }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+</head>
+<body>
+    <h1 th:text="${title}"></h1>
+    <form th:action="@{${#strings.isEmpty(user.id) ? '/login' : '/register'}}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="hidden" id="userId" name="userId" th:value="${user.id}">
+        <input type="submit" th:value="${title}" th:attr="formaction=${title == 'Register' ? '/register' : '/login'}">
+    </form>
+    <p th:unless="${title == 'Register'}">Don't have an account? <a href="/register">Create a new user</a></p>
+</body>
+</html>

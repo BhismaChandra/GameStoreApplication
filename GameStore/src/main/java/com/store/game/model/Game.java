@@ -1,81 +1,69 @@
 package com.store.game.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 
-@Document("game")
+@Document
 public class Game {
-	@Id
-	private String id;
-	
-	@Field(name = "title")
-	@Indexed(unique = true)
-	private String title;
-	
-	@Field(name = "developer")
-	private String developer;
-	
-	@Field(name = "genre")
-	private GameGenre genre;
-	
-	@Field(name = "price")
-	private BigDecimal price;
-	
-	public Game() {
-		super();
-	}
+    @Id
+    private String id;
+    private String title;
+    private String developer;
+    private GameGenre genre;
+    private BigDecimal price;
 
-	public Game(String id, String title, String developer, GameGenre genre, BigDecimal price) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.developer = developer;
-		this.genre = genre;
-		this.price = price;
-	}
+    public Game() {
+        this.title = "";
+        this.developer = "";
+        this.price = BigDecimal.ZERO;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public Game(String title, String developer, GameGenre genre, BigDecimal price) {
+        this.title = title;
+        this.developer = developer;
+        this.genre = genre;
+        this.price = price;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getDeveloper() {
-		return developer;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setDeveloper(String developer) {
-		this.developer = developer;
-	}
+    public String getDeveloper() {
+        return developer;
+    }
 
-	public GameGenre getGenre() {
-		return genre;
-	}
+    public void setDeveloper(String developer) {
+        this.developer = developer;
+    }
 
-	public void setGenre(GameGenre genre) {
-		this.genre = genre;
-	}
+    public GameGenre getGenre() {
+        return genre;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public void setGenre(GameGenre genre) {
+        this.genre = genre;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 }
-
