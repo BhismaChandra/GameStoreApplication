@@ -28,18 +28,21 @@ public class UserController {
     public String showUserForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("title", "Login");
+        model.addAttribute("loginError", false);
+        model.addAttribute("usernameExists", false);
         return "user-form";
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
+    public String loginUser(@ModelAttribute User user, RedirectAttributes redirectAttributes, Model model) {
         Optional<User> optionalUser = userService.loginUser(user.getUsername(), user.getPassword());
         if (optionalUser.isPresent()) {
             User loggedInUser = optionalUser.get();
-            redirectAttributes.addAttribute("userId", loggedInUser.getId());
-            return "redirect:/dashboard/{userId}";
+            return "redirect:/dashboard/" + loggedInUser.getId();
         } else {
-            return "redirect:/";
+            model.addAttribute("loginError", true);
+            model.addAttribute("title", "Login");
+            return "user-form";
         }
     }
 
@@ -48,25 +51,41 @@ public class UserController {
         User user = new User();
         model.addAttribute("user", user);
         model.addAttribute("title", "Register");
+        model.addAttribute("usernameExists", false);
         return "user-form";
     }
 
     @PostMapping("/register")
-    public String createUser(@ModelAttribute User user) {
-        userService.createUser(user.getUsername(), user.getPassword());
-        return "redirect:/";
+    public String createUser(@ModelAttribute User user, Model model) {
+        boolean usernameExists = userService.isUsernameExists(user.getUsername());
+        if (usernameExists) {
+            model.addAttribute("usernameExists", true);
+            model.addAttribute("user", user);
+            model.addAttribute("title", "Register");
+            return "user-form";
+        } else {
+            userService.createUser(user.getUsername(), user.getPassword());
+            return "redirect:/";
+        }
     }
-    
+
     @PostMapping("/addGame/{userId}")
     public String addGameToLibrary(
             @PathVariable String userId,
             @ModelAttribute Game game,
-            @RequestParam("genre") String genre) {
+            @RequestParam("genre") String genre,
+            RedirectAttributes redirectAttributes) {
         if (StringUtils.hasText(genre)) {
             GameGenre gameGenre = GameGenre.valueOf(genre);
             game.setGenre(gameGenre);
         }
-        userService.addGameToLibrary(userId, game);
+
+        try {
+            userService.addGameToLibrary(userId, game);
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("insufficientBalance", true);
+            return "redirect:/game-form/" + userId + "/add";
+        }
         return "redirect:/dashboard/" + userId;
     }
 
@@ -80,7 +99,7 @@ public class UserController {
     public String addBalance(
             @PathVariable String userId,
             @RequestParam BigDecimal balance) {
-        userService.addBalance(userId, balance);
+        userService.addBalances(userId, balance);
         return "redirect:/dashboard/{userId}";
     }
     
@@ -125,14 +144,14 @@ public class UserController {
         return "redirect:/dashboard/" + userId;
     }
 
-    @GetMapping("/deleteGame/{userId}/{gameId}")
+    @DeleteMapping("/deleteGame/{userId}/{gameId}")
     public String deleteGame(
             @PathVariable String userId,
             @PathVariable String gameId) {
         userService.deleteGame(userId, gameId);
         return "redirect:/dashboard/" + userId;
     }
-
+    
     @GetMapping("/dashboard/{userId}")
     public String showDashboard(@PathVariable String userId, Model model) {
         Optional<User> optionalUser = userService.getUserById(userId);

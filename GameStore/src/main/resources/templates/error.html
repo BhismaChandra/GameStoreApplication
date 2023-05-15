@@ -7,17 +7,18 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
 </head>
 <body>
-    <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand my-2 font-weight-bold" href="#">Game Catalog</a>
+    <div class="error-background">
+        <div class="row justify-content-center align-items-center" style="height: 100vh;">
+            <div class="overlay">
+                <div class="container text-center">
+                    <h1 class="error-message">Error!!</h1>
+                    <p class="error-description">Sorry, an error occurred.</p>
+                    <p class="error-description">Please try again later.</p>
+                    <p class="error-description"><span th:text="${errorType}"></span></p>
+					<p class="error-description"><span th:text="${errorMessage}"></span></p>
+                </div>
+            </div>
         </div>
-    </nav>
-	<div class="container mt-4 text-center">
-	    <h1>Error</h1>
-    	<p>Sorry, an error occurred.</p>
-    	<p>Please try again later</p>
-	    <p><span th:text="${errorType}"></span></p>
-	    <p><span th:text="${errorMessage}"></span></p>
-	</div>
+    </div>
 </body>
 </html>

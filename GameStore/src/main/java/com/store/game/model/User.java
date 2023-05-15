@@ -77,6 +77,14 @@ public class User {
 		this.balances = balances;
 	}
 
+	public void subractBalances(BigDecimal subtract) {
+		this.balances = balances.subtract(subtract);
+	}
+
+	public void addBalances(BigDecimal add) {
+		this.balances = balances.add(add);
+	}
+
 	public void setGames(List<Game> games) {
         this.games = games;
     }

@@ -35,22 +35,24 @@ public class UserService {
         newUser.setBalances(BigDecimal.ZERO);
         userRepository.save(newUser);
     }
+    
+    public boolean isUsernameExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
 
     public void addGameToLibrary(String userId, Game game) {
         userRepository.findById(userId).ifPresent(user -> {
-            BigDecimal gamePrice = game.getPrice();
-            BigDecimal currentBalance = user.getBalances();
-            if (currentBalance.compareTo(gamePrice) >= 0) {
+            if (user.getBalances().compareTo(game.getPrice()) >= 0) {
                 game.setId(UUID.randomUUID().toString());
                 user.getGames().add(game);
-                BigDecimal newBalance = currentBalance.subtract(gamePrice);
-                user.setBalances(newBalance);
+                user.subractBalances(game.getPrice());
                 userRepository.save(user);
             } else {
                 throw new RuntimeException("Insufficient balance to purchase the game.");
             }
         });
     }
+    
     public void updateUser(String userId, String username, String password) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
@@ -61,13 +63,11 @@ public class UserService {
         }
     }
 
-    public void addBalance(String userId, BigDecimal balance) {
+    public void addBalances(String userId, BigDecimal balance) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            BigDecimal currentBalance = user.getBalances();
-            BigDecimal newBalance = currentBalance.add(balance);
-            user.setBalances(newBalance);
+            user.addBalances(balance);
             userRepository.save(user);
         }
     }

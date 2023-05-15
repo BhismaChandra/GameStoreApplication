@@ -1,28 +1,76 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title th:if="${#strings.isEmpty(game.id)}">Add Game</title>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title th:if="${#strings.isEmpty(game.id)}">Add Game</title>
     <title th:unless="${#strings.isEmpty(game.id)}">Edit Game</title>
-</head>
-<body>
-    <h1 th:if="${#strings.isEmpty(game.id)}">Add Game</h1>
-    <h1 th:unless="${#strings.isEmpty(game.id)}">Edit Game</h1>
-    <form th:action="@{${#strings.isEmpty(game.id) ? '/addGame/' + user.id : '/updateGame/' + user.id + '/' + game.id}}" method="post">
-        <input type="hidden" id="id" name="id" th:value="${game.id}">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" th:value="${game.title}" required><br><br>
-        <label for="developer">Developer:</label>
-        <input type="text" id="developer" name="developer" th:value="${game.developer}" required><br><br>
-        <label for="genre">Genre:</label>
-        <select id="genre" name="genre" required>
-            <option th:each="genre : ${T(com.store.game.model.GameGenre).values()}"
-                    th:text="${genre}" th:value="${genre}"
-                    th:selected="${genre == game.genre}"></option>
-        </select><br><br>
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" step="0.01" th:value="${game.price}" required><br><br>
-        <input type="hidden" id="gameIndex" name="gameIndex" th:value="${gameIndex}">
-        <input type="submit" th:value="${#strings.isEmpty(game.id) ? 'Add Game' : 'Update Game'}">
-    </form>
-</body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+
+  </head>
+  <body class="body-game-form">
+    <div class="container">
+      <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h1 class="card-title text-center mb-4">New Game</h1>
+              <form th:action="@{${#strings.isEmpty(game.id) ? '/addGame/' + user.id : '/updateGame/' + user.id + '/' + game.id}}" method="post">
+                <div class="row mb-3">
+                  <label for="gameTitle" class="col-sm-3 col-form-label"
+                    >Game Title</label
+                  >
+                  <input type="hidden" id="id" name="id" th:value="${game.id}">
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="title" name="title" th:value="${game.title}" required>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="developer" class="col-sm-3 col-form-label"
+                    >Developer</label
+                  >
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="developer" name="developer" th:value="${game.developer}" required>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="genre" class="col-sm-3 col-form-label"
+                    >Genre</label
+                  >
+                  <div class="col-sm-9">
+                    <select class="form-select" id="genre" name="genre" required>
+			            <option th:each="genre : ${T(com.store.game.model.GameGenre).values()}"
+			                    th:text="${genre}" th:value="${genre}"
+			                    th:selected="${genre == game.genre}"></option>
+			        </select>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="price" class="col-sm-3 col-form-label"
+                    >Price</label
+                  >
+                  <div class="col-sm-9">
+                    <input type="number" class="form-control" id="price" name="price" step="0.01" th:value="${game.price}" required>
+          				<small class="text-danger" th:if="${insufficientBalance}">Insufficient balance.</small>
+                  </div>
+                </div>
+                <input type="hidden" id="gameIndex" name="gameIndex" th:value="${gameIndex}">
+                <div class="row mb-3">
+                  <div class="col-sm-12 d-flex justify-content-center">
+                    <input type="submit" class="btn btn-primary" th:value="${#strings.isEmpty(game.id) ? 'Add Game' : 'Update Game'}">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

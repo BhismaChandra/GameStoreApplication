@@ -1,18 +1,49 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
     <title th:text="${title}"></title>
 </head>
-<body>
-    <h1 th:text="${title}"></h1>
-    <form th:action="@{${#strings.isEmpty(user.id) ? '/login' : '/register'}}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="hidden" id="userId" name="userId" th:value="${user.id}">
-        <input type="submit" th:value="${title}" th:attr="formaction=${title == 'Register' ? '/register' : '/login'}">
-    </form>
-    <p th:unless="${title == 'Register'}">Don't have an account? <a href="/register">Create a new user</a></p>
+<body class="body-user-form">
+    <div class="container mt-5 mx-8">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center" th:text="${title}"></h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{${#strings.isEmpty(user.id) ? '/login' : '/register'}}" method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username:</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                <small class="text-danger" th:if="${title == 'Login' and loginError}">Username or password is incorrect.</small>
+                                <small class="text-danger" th:if="${title == 'Register' and usernameExists}">Username is already used.</small>
+                            </div>
+                            <input type="hidden" id="userId" name="userId" th:value="${user.id}">
+                            <div class="mb-3 form-check" th:if="${title == 'Login'}">
+                                <input type="checkbox" class="form-check-input" id="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                            </div>
+                            <div class="d-grid">
+                                <input type="submit" class="btn btn-primary" th:value="${title}" th:attr="formaction=${title == 'Register' ? '/register' : '/login'}">
+                            </div>
+                            <div class="text-center">
+                                <p class="mt-3" th:unless="${title == 'Register'}">Don't have an account? <a href="/register">Make one</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+	
